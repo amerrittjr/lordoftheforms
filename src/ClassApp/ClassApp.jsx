@@ -1,28 +1,31 @@
 import { Component } from "react";
-import { ClassForm } from "./ClassForm";
 import { ProfileInformation } from "../ProfileInformation";
-
-const defaultUser = {
-  email: "default@default.com",
-  firstName: "Default",
-  lastName: "Default",
-  phone: "1234567",
-  city: "Hobbiton",
-};
+import { ClassForm } from "./ClassForm";
 
 export class ClassApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        city: "",
+        phoneNumber: "",
+      },
+    };
+  }
+
+  updateUserData = (formData) => {
+    this.setState({ userData: { ...this.state.userData, ...formData } });
+  };
+
   render() {
     return (
       <>
         <h2>Class</h2>
-        <ProfileInformation
-          userData={
-            // toggle the following lines to change
-            // null
-            defaultUser
-          }
-        />
-        <ClassForm />
+        <ProfileInformation userData={this.state.userData} />
+        <ClassForm updateUserData={this.updateUserData} />
       </>
     );
   }

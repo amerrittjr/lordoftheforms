@@ -1,60 +1,161 @@
-import { ErrorMessage } from "../ErrorMessage";
+import { useState } from "react";
+import {
+  isEmailValid,
+  isFirstNameAndLastNameValid,
+  isCityValid,
+  isPhoneNumberValid,
+} from "../utils/validations"; // Adjust the path as necessary
+import { ErrorMessage } from "../ErrorMessage"; // Adjust the path as necessary
+import { allCities } from "../utils/all-cities"; // Adjust the path as necessary
+import { FunctionalPhoneInput } from "./FunctionalPhoneInput"; // Adjust the path as necessary
 
 const firstNameErrorMessage = "First name must be at least 2 characters long";
 const lastNameErrorMessage = "Last name must be at least 2 characters long";
 const emailErrorMessage = "Email is Invalid";
-const cityErrorMessage = "State is Invalid";
-const phoneNumberErrorMessage = "Invalid Phone Number";
+const cityErrorMessage = "City is Invalid";
+const phoneNumberErrorMessage = "Phone number is Invalid";
 
-export const FunctionalForm = () => {
+export const FunctionalForm = ({ updateUserData }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(["", "", "", ""]);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const handleFirstNameInput = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameInput = (event) => {
+    setLastName(event.target.value);
+  };
+
+  const handleEmailInput = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleCityInput = (event) => {
+    setCity(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setHasSubmitted(true);
+
+    const isEmailValidated = isEmailValid(email);
+    const isFirstNameValidated = isFirstNameAndLastNameValid(firstName);
+    const isLastNameValidated = isFirstNameAndLastNameValid(lastName);
+    const isCityValidated = isCityValid(city);
+    const isPhoneNumberValidated = isPhoneNumberValid(phoneNumber.join(""));
+
+    if (
+      isEmailValidated &&
+      isFirstNameValidated &&
+      isLastNameValidated &&
+      isCityValidated &&
+      isPhoneNumberValidated
+    ) {
+      const formData = {
+        firstName,
+        lastName,
+        email,
+        city,
+        phoneNumber: phoneNumber.join(""),
+      };
+      updateUserData(formData);
+      alert("Form Submitted Successfully");
+
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setCity("");
+      setPhoneNumber(["", "", "", ""]);
+      setHasSubmitted(false);
+    } else {
+      alert("Form has errors");
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <u>
         <h3>User Information Form</h3>
       </u>
 
       {/* first name input */}
       <div className="input-wrap">
-        <label>{"First Name"}:</label>
-        <input placeholder="Bilbo" />
+        <label>First Name:</label>
+        <input
+          placeholder="Bilbo"
+          value={firstName}
+          onChange={handleFirstNameInput}
+        />
       </div>
-      <ErrorMessage message={firstNameErrorMessage} show={true} />
+      <ErrorMessage
+        message={firstNameErrorMessage}
+        show={hasSubmitted && !isFirstNameAndLastNameValid(firstName)}
+      />
 
       {/* last name input */}
       <div className="input-wrap">
-        <label>{"Last Name"}:</label>
-        <input placeholder="Baggins" />
+        <label>Last Name:</label>
+        <input
+          placeholder="Baggins"
+          value={lastName}
+          onChange={handleLastNameInput}
+        />
       </div>
-      <ErrorMessage message={lastNameErrorMessage} show={true} />
+      <ErrorMessage
+        message={lastNameErrorMessage}
+        show={hasSubmitted && !isFirstNameAndLastNameValid(lastName)}
+      />
 
-      {/* Email Input */}
+      {/* email input */}
       <div className="input-wrap">
-        <label>{"Email"}:</label>
-        <input placeholder="bilbo-baggins@adventurehobbits.net" />
+        <label>Email:</label>
+        <input
+          placeholder="bilbo-baggins@adventurehobbits.net"
+          value={email}
+          onChange={handleEmailInput}
+        />
       </div>
-      <ErrorMessage message={emailErrorMessage} show={true} />
+      <ErrorMessage
+        message={emailErrorMessage}
+        show={hasSubmitted && !isEmailValid(email)}
+      />
 
-      {/* City Input */}
+      {/* city input */}
       <div className="input-wrap">
-        <label>{"City"}:</label>
-        <input placeholder="Hobbiton" />
+        <label>City:</label>
+        <input
+          list="cities"
+          placeholder="Hobbiton"
+          value={city}
+          onChange={handleCityInput}
+        />
+        <datalist id="cities">
+          {allCities.map((city) => (
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </datalist>
       </div>
-      <ErrorMessage message={cityErrorMessage} show={true} />
+      <ErrorMessage
+        message={cityErrorMessage}
+        show={hasSubmitted && !isCityValid(city)}
+      />
 
-      <div className="input-wrap">
-        <label htmlFor="phone">Phone:</label>
-        <div id="phone-input-wrap">
-          <input type="text" id="phone-input-1" placeholder="55" />
-          -
-          <input type="text" id="phone-input-2" placeholder="55" />
-          -
-          <input type="text" id="phone-input-3" placeholder="55" />
-          -
-          <input type="text" id="phone-input-4" placeholder="5" />
-        </div>
-      </div>
-
-      <ErrorMessage message={phoneNumberErrorMessage} show={true} />
+      {/* phone number input */}
+      <FunctionalPhoneInput
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+      />
+      <ErrorMessage
+        message={phoneNumberErrorMessage}
+        show={hasSubmitted && !isPhoneNumberValid(phoneNumber.join(""))}
+      />
 
       <input type="submit" value="Submit" />
     </form>

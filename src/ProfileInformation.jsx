@@ -1,3 +1,5 @@
+import { formatPhoneNumber, capitalize } from "./utils/transformations";
+
 export const InfoRow = ({ label, value }) => {
   return (
     <div>
@@ -8,6 +10,7 @@ export const InfoRow = ({ label, value }) => {
     </div>
   );
 };
+
 export const ProfileInformation = ({ userData }) => {
   if (!userData) {
     return (
@@ -21,8 +24,9 @@ export const ProfileInformation = ({ userData }) => {
       </>
     );
   }
-  // eslint-disable-next-line no-unused-vars
-  const { email, firstName, lastName, phone: _phone, city } = userData;
+
+  const { email, firstName, lastName, phoneNumber, city } = userData;
+
   return (
     <>
       <u>
@@ -30,11 +34,11 @@ export const ProfileInformation = ({ userData }) => {
       </u>
       <div className="user-info">
         <InfoRow label="Email" value={email} />
-        <InfoRow label="First Name" value={firstName} />
-        <InfoRow label="Last Name" value={lastName} />
-        <InfoRow label="City" value={city} />
-        {/* You will need to format the string "nnnnnnn" as "nn-nn-nn-n" */}
-        <InfoRow label="Phone" value={"12-34-56-7"} />
+        <InfoRow label="First Name" value={capitalize(firstName)} />
+        <InfoRow label="Last Name" value={capitalize(lastName)} />
+        <InfoRow label="City" value={capitalize(city)} />
+        {/* Format the phone number string "nnnnnnn" as "nn-nn-nn-n" */}
+        <InfoRow label="Phone" value={formatPhoneNumber(phoneNumber)} />
       </div>
     </>
   );
