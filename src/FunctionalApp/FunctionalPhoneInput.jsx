@@ -18,46 +18,49 @@ export const FunctionalPhoneInput = ({ phoneNumber, setPhoneNumber }) => {
   };
 
   return (
-    <div id="phone-input-wrap">
-      <input
-        type="text"
-        id="phone-input-1"
-        placeholder="55"
-        maxLength={2}
-        value={phoneNumber[0]}
-        onChange={(e) => handlePhoneNumberInput(e, 0)}
-        ref={phoneRefs[0]}
-      />
-      -
-      <input
-        type="text"
-        id="phone-input-2"
-        placeholder="55"
-        maxLength={2}
-        value={phoneNumber[1]}
-        onChange={(e) => handlePhoneNumberInput(e, 1)}
-        ref={phoneRefs[1]}
-      />
-      -
-      <input
-        type="text"
-        id="phone-input-3"
-        placeholder="55"
-        maxLength={2}
-        value={phoneNumber[2]}
-        onChange={(e) => handlePhoneNumberInput(e, 2)}
-        ref={phoneRefs[2]}
-      />
-      -
-      <input
-        type="text"
-        id="phone-input-4"
-        placeholder="5"
-        maxLength={1}
-        value={phoneNumber[3]}
-        onChange={(e) => handlePhoneNumberInput(e, 3)}
-        ref={phoneRefs[3]}
-      />
+    <div className="input-wrap">
+      <label htmlFor="phone-input-wrap">Phone:</label>
+      <div id="phone-input-wrap">
+        <input
+          type="text"
+          id="phone-input-1"
+          placeholder="55"
+          maxLength={2}
+          value={phoneNumber[0]}
+          onChange={(e) => handlePhoneNumberInput(e, 0)}
+          ref={phoneRefs[0]}
+        />
+        -
+        <input
+          type="text"
+          id="phone-input-2"
+          placeholder="55"
+          maxLength={2}
+          value={phoneNumber[1]}
+          onChange={(e) => handlePhoneNumberInput(e, 1)}
+          ref={phoneRefs[1]}
+        />
+        -
+        <input
+          type="text"
+          id="phone-input-3"
+          placeholder="55"
+          maxLength={2}
+          value={phoneNumber[2]}
+          onChange={(e) => handlePhoneNumberInput(e, 2)}
+          ref={phoneRefs[2]}
+        />
+        -
+        <input
+          type="text"
+          id="phone-input-4"
+          placeholder="5"
+          maxLength={1}
+          value={phoneNumber[3]}
+          onChange={(e) => handlePhoneNumberInput(e, 3)}
+          ref={phoneRefs[3]}
+        />
+      </div>
     </div>
   );
 };

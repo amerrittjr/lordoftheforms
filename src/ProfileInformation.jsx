@@ -24,8 +24,8 @@ export const ProfileInformation = ({ userData }) => {
       </>
     );
   }
-
-  const { email, firstName, lastName, phoneNumber, city } = userData;
+  const isDataProvided =
+    userData && Object.values(userData).every((value) => value);
 
   return (
     <>
@@ -33,12 +33,23 @@ export const ProfileInformation = ({ userData }) => {
         <h3>Your Submitted User Information</h3>
       </u>
       <div className="user-info">
-        <InfoRow label="Email" value={email} />
-        <InfoRow label="First Name" value={capitalize(firstName)} />
-        <InfoRow label="Last Name" value={capitalize(lastName)} />
-        <InfoRow label="City" value={capitalize(city)} />
-        {/* Format the phone number string "nnnnnnn" as "nn-nn-nn-n" */}
-        <InfoRow label="Phone" value={formatPhoneNumber(phoneNumber)} />
+        {isDataProvided ? (
+          <>
+            <InfoRow label="Email" value={userData.email} />
+            <InfoRow
+              label="First Name"
+              value={capitalize(userData.firstName)}
+            />
+            <InfoRow label="Last Name" value={capitalize(userData.lastName)} />
+            <InfoRow label="City" value={capitalize(userData.city)} />
+            <InfoRow
+              label="Phone"
+              value={formatPhoneNumber(userData.phoneNumber)}
+            />
+          </>
+        ) : (
+          <div>No information provided</div>
+        )}
       </div>
     </>
   );

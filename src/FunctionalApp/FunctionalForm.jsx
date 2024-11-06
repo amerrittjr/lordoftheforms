@@ -24,11 +24,17 @@ export const FunctionalForm = ({ updateUserData }) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleFirstNameInput = (event) => {
-    setFirstName(event.target.value);
+    const value = event.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setFirstName(value);
+    }
   };
 
   const handleLastNameInput = (event) => {
-    setLastName(event.target.value);
+    const value = event.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setLastName(value);
+    }
   };
 
   const handleEmailInput = (event) => {

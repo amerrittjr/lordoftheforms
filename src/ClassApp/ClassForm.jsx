@@ -35,11 +35,17 @@ export class ClassForm extends Component {
   }
 
   handleFirstNameInput = (event) => {
-    this.setState({ firstName: event.target.value });
+    const value = event.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      this.setState({ firstName: event.target.value });
+    }
   };
 
   handleLastNameInput = (event) => {
-    this.setState({ lastName: event.target.value });
+    const value = event.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      this.setState({ lastName: event.target.value });
+    }
   };
 
   handleEmailInput = (event) => {
